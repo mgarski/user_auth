@@ -98,7 +98,7 @@ func DecodeAuthenticationRequest(reader io.Reader) (AuthenticationRequest, error
 	return req, err
 }
 
-// used when validating the token or logging out the user
+// used when validating the token
 type TokenRequest struct {
 	Token string `json:"token"`
 }
@@ -124,6 +124,11 @@ func DecodeDeleteRequest(reader io.Reader) (DeleteRequest, error) {
 	decoder := json.NewDecoder(reader)
 	var req DeleteRequest
 	err := decoder.Decode(&req)
+	if(err == nil) {
+		if req.Id < 1 {
+			err = errors.New("ID field missing from request")
+		}
+	}
 	return req, err
 }
 
@@ -136,7 +141,7 @@ type BasicResponse struct {
 
 // response used for log in
 type AuthenticationResponse struct {
-	Token string `json:"token"`
+	Token string `json:"token,omitempty"`
 	BasicResponse
 }
 

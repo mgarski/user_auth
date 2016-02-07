@@ -66,13 +66,13 @@ func LogIn(w http.ResponseWriter, r *http.Request) {
 
 // logs a user out by invalidating any tokens
 func LogOut(w http.ResponseWriter, r *http.Request) {
-	tr, err := DecodeTokenRequest(r.Body)
+	req, err := DecodeDeleteRequest(r.Body)
 	if err != nil {
 		handleRequestError(w, err)
 		return
 	}
 
-	if !FlushToken(tr.Token) {
+	if !FlushToken(req.Id) {
 		w.WriteHeader(400)
 	}
 }

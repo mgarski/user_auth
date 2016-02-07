@@ -36,7 +36,6 @@ func (u User) Register() (int, string) {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(u.Email, u.Name, string(hash), string(salt))
-	//TODO: get error for email exists
 	if err != nil {
 		fmt.Printf("ERROR execute: %s\n", err.Error())
 		return 500, "Internal Error"
@@ -125,12 +124,23 @@ func (u User) Delete() (int, string) {
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(u.Id)
+	res, err := stmt.Exec(u.Id)
 	if err != nil {
 		fmt.Printf("ERROR execute: %s\n", err.Error())
 		return 500, "Internal Error"
 	}
-	return 200, "deleted"
+
+	affect, err := res.RowsAffected()
+	if err != nil {
+		fmt.Printf("ERROR affected: %s\n", err.Error())
+		return 500, "Internal Error"
+	}
+	if affect > 0 {
+		return 200, "deleted"
+	} else {
+		return 404, "User not found"
+	}
+
 }
 
 func generateSalt() []byte {

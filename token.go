@@ -79,15 +79,7 @@ func GenerateToken(id int) string {
 	return token
 }
 
-func FlushToken(token string) bool {
-	fmt.Print("flushing token " + token)
-	parsed, err := jws.ParseJWT([]byte(token))
-	if(err != nil) {
-		return false
-	}
-
-	id := int(parsed.Claims().Get("id").(float64))
-
+func FlushToken(id int) bool {
 	db, err := sql.Open("postgres", dbConn)
 	if err != nil {
 		fmt.Println(err.Error())
