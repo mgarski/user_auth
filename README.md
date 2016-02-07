@@ -1,5 +1,11 @@
 # user_auth
 
+## Set Up & Configuration
+
+The database used in this service is Postgres, with the table schemas contained in the tables.sql file.
+
+Update the database connection string in the conf.sql file, which needs to be in the working directory.
+
 ## User Management
 
 User management is performed through the /user endpoint with the following operations available.

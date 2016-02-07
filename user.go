@@ -22,7 +22,7 @@ func (u User) Register() (int, string) {
 
 	hash := generateHash(u.Password, salt)
 
-	db, err := sql.Open("postgres", dbConn)
+	db, err := sql.Open("postgres", config.DbConnection)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -45,7 +45,7 @@ func (u User) Register() (int, string) {
 
 func (u User) ValidateCredentials() int  {
 
-	db, err := sql.Open("postgres", dbConn)
+	db, err := sql.Open("postgres", config.DbConnection)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -89,7 +89,7 @@ func (u User) Update() (int, string) {
 
 	hash := generateHash(u.Password, salt)
 
-	db, err := sql.Open("postgres", dbConn)
+	db, err := sql.Open("postgres", config.DbConnection)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -111,7 +111,7 @@ func (u User) Update() (int, string) {
 }
 
 func (u User) Delete() (int, string) {
-	db, err := sql.Open("postgres", dbConn)
+	db, err := sql.Open("postgres", config.DbConnection)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

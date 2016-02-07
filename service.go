@@ -4,9 +4,27 @@ import (
 	"net/http"
 	"encoding/json"
 	"fmt"
+	"os"
 )
 
-const dbConn string = "user=mgarski dbname=authentication sslmode=disable"
+var config Configuration
+
+type Configuration struct {
+	DbConnection string `json:"dbConnection"`
+}
+
+func init() {
+	// load up the database config
+
+	file, _ := os.Open("conf.json")
+	decoder := json.NewDecoder(file)
+	config := Configuration{}
+	err := decoder.Decode(&config)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	fmt.Println(config.DbConnection)
+}
 
 func main() {
 	http.HandleFunc("/login", LogIn)

@@ -21,7 +21,7 @@ func ValidateToken(token string) bool {
 	if id > 0 {
 		fmt.Printf("parsed: %d : %v\n", id, parsed)
 
-		db, err := sql.Open("postgres", dbConn)
+		db, err := sql.Open("postgres", config.DbConnection)
 		if err != nil {
 			fmt.Println(err.Error())
 		}
@@ -58,7 +58,7 @@ func GenerateToken(id int) string {
 	}
 	token := string(t)
 
-	db, err := sql.Open("postgres", dbConn)
+	db, err := sql.Open("postgres", config.DbConnection)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -80,7 +80,7 @@ func GenerateToken(id int) string {
 }
 
 func FlushToken(id int) bool {
-	db, err := sql.Open("postgres", dbConn)
+	db, err := sql.Open("postgres", config.DbConnection)
 	if err != nil {
 		fmt.Println(err.Error())
 		return false
