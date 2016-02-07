@@ -11,7 +11,6 @@ import (
 var secret = []byte{1, 2, 3, 4, 5, 6, 7, 8, 9}
 
 func ValidateToken(token string) bool {
-	fmt.Println("validating token " + token)
 	parsed, err := jws.ParseJWT([]byte(token))
 	if(err != nil) {
 		return false
@@ -20,7 +19,6 @@ func ValidateToken(token string) bool {
 	id := int(parsed.Claims().Get("id").(float64))
 	if id > 0 {
 		fmt.Printf("parsed: %d : %v\n", id, parsed)
-
 		db, err := sql.Open("postgres", config.DbConnection)
 		if err != nil {
 			fmt.Println(err.Error())
@@ -54,7 +52,7 @@ func GenerateToken(id int) string {
 	j := jws.NewJWT(claims, crypto.SigningMethodHS256)
 	t, err := j.Serialize(secret)
 	if err != nil {
-		//TODO: handle error
+		return ""
 	}
 	token := string(t)
 

@@ -13,20 +13,17 @@ type Configuration struct {
 	DbConnection string `json:"dbConnection"`
 }
 
-func init() {
+func main() {
 	// load up the database config
-
 	file, _ := os.Open("conf.json")
 	decoder := json.NewDecoder(file)
-	config := Configuration{}
+	config = Configuration{}
 	err := decoder.Decode(&config)
 	if err != nil {
-		fmt.Println("error:", err)
+		fmt.Println("configuration error:", err)
+		return
 	}
-	fmt.Println(config.DbConnection)
-}
 
-func main() {
 	http.HandleFunc("/login", LogIn)
 	http.HandleFunc("/logout", LogOut)
 	http.HandleFunc("/user", UserManagement)
