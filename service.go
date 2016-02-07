@@ -28,6 +28,7 @@ func main() {
 	http.HandleFunc("/logout", LogOut)
 	http.HandleFunc("/user", UserManagement)
 	http.HandleFunc("/validate", Validate)
+	fmt.Println("Starting server on port 8080")
 	http.ListenAndServe(":8080", nil)
 }
 
